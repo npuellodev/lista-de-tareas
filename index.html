@@ -5,14 +5,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de tareas</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .modal-overlay {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      pointer-events: none;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-content {
+      transform: translateY(-20px);
+      transition: transform 0.3s ease-in-out;
+    }
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body class="bg-gray-100">
   <div class="container mx-auto px-4 py-8 max-w-2xl">
     <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Lista de tareas</h1>
 
+    <div class="mb-4 flex justify-end">
+      <button onclick="abrirModal()"
+              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        Agregar Tarea
+      </button>
+    </div>
+
     <div class="bg-white rounded-lg shadow-md p-6" id="lista-tareas">
 
     </div>
   </div>
+
+  <div id="modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="modal-content bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+      <h2 class="text-2xl font-bold mb-4">Nueva Tarea</h2>
+      <form id="formularioTarea" onsubmit="guardarTarea(event)">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="titulo">
+            Título
+          </label>
+          <input type="text" id="titulo" required
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="descripcion">
+            Descripción
+          </label>
+          <textarea id="descripcion" rows="3" required
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="urgencia">
+            Urgencia
+          </label>
+          <select id="urgencia" required
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="urgente">Urgente</option>
+            <option value="normal">Normal</option>
+            <option value="no-urgente">No urgente</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-2">
+          <button type="button" onclick="cerrarModal()"
+                  class="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
+            Cancelar
+          </button>
+          <button type="submit"
+                  class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="ObjectTarea.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
